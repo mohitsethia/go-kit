@@ -41,10 +41,10 @@ func (ae *async) RunAsync(
 			if err == nil {
 				return
 			}
-			log.Errorf("[ASYNC][%s] panic: %v", name, err)
+			log.Printf("[ASYNC][%s] panic: %v", name, err)
 		})
 		if err := cb(ctx); err != nil {
-			log.Errorf("[ASYNC][%s] error: %v", name, err)
+			log.Printf("[ASYNC][%s] error: %v", name, err)
 		}
 	}(ctx)
 }
