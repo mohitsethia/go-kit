@@ -4,8 +4,10 @@ type Options struct {
 	withUnInterruptedContext bool
 }
 
-func WithUnInterruptedContext() Options {
-	return Options{
-		withUnInterruptedContext: true,
+type Option func(*Options)
+
+func WithUnInterruptedContext() Option {
+	return func(o *Options) {
+		o.withUnInterruptedContext = true
 	}
 }
