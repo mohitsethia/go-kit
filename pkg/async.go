@@ -20,12 +20,25 @@ type Async interface {
 }
 
 type async struct {
-	wg sync.WaitGroup
+	wg                   sync.WaitGroup
+	shouldUseDetachedCtx bool
 }
 
 // NewAsync ...
-func NewAsync() Async {
-	return &async{}
+func NewAsync(options ...Option) Async {
+	var opts *Options
+	for _, option := range options {
+		option(opts)
+	}
+
+	var useDetachedCtx bool
+	if opts != nil {
+		useDetachedCtx = opts.withUnInterruptedContext
+	}
+
+	return &async{
+		shouldUseDetachedCtx: useDetachedCtx,
+	}
 }
 
 // RunAsync ...
