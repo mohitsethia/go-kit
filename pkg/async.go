@@ -48,6 +48,11 @@ func (ae *async) RunAsync(
 	cb func(context.Context) error,
 ) {
 	ae.wg.Add(1)
+
+	if ae.shouldUseDetachedCtx {
+		ctx = DetachContext(ctx)
+	}
+
 	go func(ctx context.Context) {
 		defer ae.wg.Done()
 		defer CapturePanic(func(err error) {
